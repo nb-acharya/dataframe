@@ -1,0 +1,81 @@
+-- 20260811
+
+/*
+FROM / JOIN → WHERE → GROUP BY → HAVING → SELECT → DISTINCT → ORDER BY → LIMIT / OFFSET
+*/
+
+SELECT * FROM film LIMIT 5;
+
+SELECT first_name, last_name, email, active
+FROM customer;
+
+SELECT column_name, data_type
+FROM information_schema.columns
+WHERE table_name = 'customer'
+  AND column_name = 'active';
+
+  SELECT *
+FROM customer
+WHERE first_name LIKE 'A%';
+
+select * from customer
+
+--- Find customers whose last name ends with "son".
+select * from customer where last_name like '%SON'
+
+
+/*
+Like is case insenstive for MYSQL and MSSqlserver
+LIke is case sensitive for Postgresql and oracle
+*/
+
+
+--- Find customers whose first name contains "an", regardless of capitalization.
+select * from customer where first_name ilike '%AN%'
+
+
+--- Find customers whose first name is either Mary or Linda.
+select * from customer where first_name in ('MARY','LINDA')
+select * from customer where first_name in ('mary','linda')  -- shows 0 result since case sensitive in postgresql
+
+select * from customer where first_name ilike 'mary' or first_name ilike 'linda'
+
+
+---- Find customers whose active value is 1 and whose first name starts with "M".
+select * from customer where active = 1 and first_name ilike 'M%'
+
+--- Find customers who are inactive OR whose first name starts with "J".
+select * from customer where active = 0 or first_name ilike 'j%'
+
+
+--- Show the first 10 customers, sorted alphabetically by last_name.
+ --- sqlserver: select top(10) * from customer order by last_name
+
+
+select * from customer order by last_name asc
+limit 10
+
+
+---Show the 5 most recently created customers.
+select * from customer order by create_date desc
+limit 5
+
+--- Show the unique values of active in the customer table.
+select distinct active from customer
+
+
+--- Count the total number of customers in the database.
+select count(*) from customer
+
+--- How many active customers are there?
+select count(*) from customer where active = 1
+
+--- How many active and inactive customers are there?
+select active, count(*) from customer group by active
+
+
+
+
+
+
+
